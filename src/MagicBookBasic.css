@@ -1,0 +1,82 @@
+.magicbook-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #faf6ed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1800px;
+}
+
+/* --- BOOK WRAPPER --- */
+.book {
+  display: flex;
+  transform-style: preserve-3d;
+  transform: rotateX(25deg) translateY(40px);
+}
+
+/* --- SPINE --- */
+.spine {
+  width: 26px;
+  height: 260px;
+  background: #8a6a4a;
+  border-radius: 6px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+  z-index: 5;
+}
+
+/* --- PAGE STACKS --- */
+.page-stack {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  transform-style: preserve-3d;
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #f9f2e5, #e8d9c3);
+  border-radius: 6px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  transform-origin: left center;
+}
+
+/* Left side pages flare */
+.left-stack .page {
+  transform-origin: right center;
+  transform: rotateY(calc(var(--i) * -7deg)) translateZ(calc(var(--i) * -1px));
+}
+
+/* Right side pages flare */
+.right-stack .page {
+  transform-origin: left center;
+  transform: rotateY(calc(var(--i) * 7deg)) translateZ(calc(var(--i) * -1px));
+}
+
+/* Slight tilt for realism */
+.left-stack {
+  transform: rotateZ(2deg);
+}
+
+.right-stack {
+  transform: rotateZ(-2deg);
+}
+
+/* --- OPTIONAL MAGIC SPARKLES --- */
+.sparkles {
+  position: absolute;
+  top: 20%;
+  width: 400px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,200,0.6), transparent 70%);
+  filter: blur(12px);
+  animation: sparkle 3s infinite ease-in-out;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.2; transform: translateY(0); }
+  50% { opacity: 0.7; transform: translateY(-20px); }
+}

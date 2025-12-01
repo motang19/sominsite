@@ -1,0 +1,26 @@
+:root {
+  --desk: #f7f2e9;
+  --ink: #3c3127;
+  --lamp-intensity: 0.75;
+  --lamp-temperature: 0.2;
+  --desk-light-strength: 0.6;
+  --desk-light-color: #fef4dc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}

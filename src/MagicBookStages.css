@@ -1,0 +1,100 @@
+.book-scene {
+  width: 100%;
+  height: 100vh;
+  background: #faf6ed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1800px;
+}
+
+.book {
+  display: flex;
+  transform-style: preserve-3d;
+  transition: transform 1.2s ease;
+  cursor: pointer;
+}
+
+.book.closed {
+  transform: rotateX(0deg);
+}
+
+.book.closed .page-stack {
+  transform: rotateY(0deg);
+}
+
+.book.closed .page {
+  transform: rotateY(0deg);
+}
+
+.book.opening {
+  transform: rotateX(0deg);
+}
+
+.book.opening .left-stack {
+  transform: rotateY(40deg);
+}
+
+.book.opening .right-stack {
+  transform: rotateY(-40deg);
+}
+
+.book.opening .page {
+  transition: transform 1.2s ease;
+}
+
+.book.opening .left-stack .page {
+  transform-origin: right center;
+  transform: rotateY(calc(var(--i) * -4deg));
+}
+
+.book.opening .right-stack .page {
+  transform-origin: left center;
+  transform: rotateY(calc(var(--i) * 4deg));
+}
+
+.book.magic {
+  transform: rotateX(28deg) translateY(40px) scale(1.03);
+}
+
+.book.magic .left-stack {
+  transform: rotateY(15deg) rotateZ(2deg);
+}
+
+.book.magic .right-stack {
+  transform: rotateY(-15deg) rotateZ(-2deg);
+}
+
+.book.magic .left-stack .page {
+  transform: rotateY(calc(var(--i) * -7deg)) translateZ(calc(var(--i) * -1px));
+}
+
+.book.magic .right-stack .page {
+  transform: rotateY(calc(var(--i) * 7deg)) translateZ(calc(var(--i) * -1px));
+}
+
+.spine {
+  width: 26px;
+  height: 260px;
+  background: #8a6a4a;
+  border-radius: 6px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.page-stack {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.2s ease;
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #f9f2e5, #e8d9c3);
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  transform-origin: center;
+}

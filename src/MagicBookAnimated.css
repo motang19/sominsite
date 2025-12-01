@@ -1,0 +1,121 @@
+.magicbook-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #faf6ed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1800px;
+}
+
+/* ----------------------
+      BOOK CONTAINER
+   ---------------------- */
+
+.book {
+  display: flex;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transform: rotateX(0deg) scale(1);
+  transition: transform 1.4s ease, opacity 1.4s ease;
+}
+
+/* Tilt + lift into final view */
+.book.opened {
+  transform: rotateX(28deg) translateY(40px) scale(1.03);
+}
+
+/* ----------------------
+          SPINE
+   ---------------------- */
+
+.spine {
+  width: 28px;
+  height: 260px;
+  background: #8a6a4a;
+  border-radius: 6px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+  z-index: 5;
+}
+
+/* ----------------------
+        PAGE STACKS
+   ---------------------- */
+
+.page-stack {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  transform-style: preserve-3d;
+  transition: transform 1.2s ease;
+}
+
+/* COVERS CLOSE WHEN LOCKED */
+.book:not(.opened) .page-stack {
+  transform: rotateY(0deg);
+}
+
+/* ANGLED PAGE EFFECT WHEN OPEN */
+.book.opened .left-stack {
+  transform: rotateZ(2deg) rotateY(12deg);
+}
+
+.book.opened .right-stack {
+  transform: rotateZ(-2deg) rotateY(-12deg);
+}
+
+/* ----------------------
+          PAGES
+   ---------------------- */
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #f9f2e5, #e8d9c3);
+  border-radius: 6px;
+  transform-origin: center;
+  transition: transform 1.2s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Closed (all pages flat) */
+.book:not(.opened) .page {
+  transform: rotateY(0deg);
+}
+
+/* Open — fanned pages */
+.book.opened .left-stack .page {
+  transform-origin: right center;
+  transform: rotateY(calc(var(--i) * -7deg)) translateZ(calc(var(--i) * -1px));
+}
+
+.book.opened .right-stack .page {
+  transform-origin: left center;
+  transform: rotateY(calc(var(--i) * 7deg)) translateZ(calc(var(--i) * -1px));
+}
+
+/* ----------------------
+        SPARKLE BURST
+   ---------------------- */
+
+.sparkles {
+  position: absolute;
+  top: 28%;
+  width: 400px;
+  height: 200px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Burst animation triggered only after opening */
+.sparkles.burst {
+  animation: sparkleBurst 1.6s ease-out forwards;
+}
+
+@keyframes sparkleBurst {
+  0% { opacity: 0; transform: scale(0.4) translateY(20px); }
+  30% { opacity: 1; transform: scale(1) translateY(-20px); }
+  100% { opacity: 0; transform: scale(1.6) translateY(-50px); }
+}
