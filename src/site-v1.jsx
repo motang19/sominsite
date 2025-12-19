@@ -1,5 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
+import geminiLeftImage from './Gemini_Generated_Image_ifhuo0ifhuo0ifhu (1).png';
+import geminiCornerImage from './Gemini_Generated_Image_zcynrhzcynrhzcyn.png';
+import geminiCornerRightImage from './Gemini_Generated_Image_yh34qhyh34qhyh34.png';
+import geminiRightImage from './Gemini_Generated_Image_5ra4905ra4905ra4 (1).png';
+import geminiTopRightImage from './Gemini_Generated_Image_bz1zyrbz1zyrbz1z.png';
+import geminiBottomLeftImage from './Gemini_Generated_Image_7qd69a7qd69a7qd6.png';
 
 // Snapshot of the original landing desk with diary button
 const SiteV1 = () => {
@@ -7,6 +13,9 @@ const SiteV1 = () => {
   const knobRef = useRef(null);
   const isDragging = useRef(false);
   const [knobAngle, setKnobAngle] = useState(-30);
+
+  const clampKnobAngle = (angle) => Math.min(Math.max(angle, 45), 315);
+  const normalizeAngle = (angle) => ((angle % 360) + 360) % 360;
 
   const setLightingVars = (angle) => {
     const wrapped = ((angle % 360) + 360) % 360;
@@ -23,45 +32,61 @@ const SiteV1 = () => {
     document.documentElement.style.setProperty('--desk-light-color', deskColor);
   };
 
-  const updateFromPointer = (event) => {
+  const updateFromPointer = useCallback((event) => {
     if (!baseRef.current) return;
     const rect = baseRef.current.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
     const rawAngle = (Math.atan2(event.clientY - cy, event.clientX - cx) * 180) / Math.PI;
-    const wrapped = ((rawAngle % 360) + 360) % 360;
-    const clamped = Math.min(Math.max(wrapped, 45), 315);
-    setKnobAngle(clamped);
-    setLightingVars(clamped);
-  };
+    const target = normalizeAngle(rawAngle);
 
-  const handlePointerMove = (event) => {
-    if (!isDragging.current) return;
-    updateFromPointer(event);
-  };
+    setKnobAngle((previous) => {
+      const current = normalizeAngle(previous);
+      const delta = ((target - current + 540) % 360) - 180; // shortest turn direction
+      return clampKnobAngle(current + delta);
+    });
+  }, []);
 
-  const handlePointerUp = (event) => {
-    isDragging.current = false;
-    knobRef.current?.releasePointerCapture(event.pointerId);
-    window.removeEventListener('pointermove', handlePointerMove);
-    window.removeEventListener('pointerup', handlePointerUp);
-  };
+  const handlePointerMove = useCallback(
+    (event) => {
+      if (!isDragging.current) return;
+      updateFromPointer(event);
+    },
+    [updateFromPointer]
+  );
 
-  const handlePointerDown = (event) => {
-    isDragging.current = true;
-    knobRef.current?.setPointerCapture(event.pointerId);
-    updateFromPointer(event);
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', handlePointerUp);
-  };
+  const handlePointerUp = useCallback(
+    (event) => {
+      isDragging.current = false;
+      knobRef.current?.releasePointerCapture(event.pointerId);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+    },
+    [handlePointerMove]
+  );
+
+  const handlePointerDown = useCallback(
+    (event) => {
+      isDragging.current = true;
+      knobRef.current?.setPointerCapture(event.pointerId);
+      updateFromPointer(event);
+      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointerup', handlePointerUp);
+    },
+    [handlePointerMove, handlePointerUp, updateFromPointer]
+  );
 
   useEffect(() => {
     setLightingVars(knobAngle);
-    return () => {
+  }, [knobAngle]);
+
+  useEffect(
+    () => () => {
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
-    };
-  }, [knobAngle]);
+    },
+    [handlePointerMove, handlePointerUp]
+  );
 
   const handleDiaryClick = () => {
     window.location.hash = '#opening';
@@ -90,24 +115,47 @@ const SiteV1 = () => {
         </button>
       </div>
 
-      <div className="sticky-note">
-        <span className="sticky-pin" aria-hidden="true" />
-        <p>모든 순간을 기록해 ✧</p>
-      </div>
+      <img
+        className="desk-gemini-corner"
+        src={geminiCornerImage}
+        alt="Gemini generated illustration"
+        draggable="false"
+      />
 
-      <div className="desk-polaroid" aria-label="Polaroid photo">
-        <div className="polaroid-photo">
-          <span className="photo-sparkle" />
-        </div>
-        <div className="polaroid-caption">Weekend light study</div>
-        <div className="polaroid-tape" aria-hidden="true" />
-      </div>
+      <img
+        className="desk-gemini-corner-right"
+        src={geminiCornerRightImage}
+        alt="Gemini generated illustration"
+        draggable="false"
+      />
 
-      <div className="desk-pencil" aria-hidden="true">
-        <div className="pencil-wood" />
-        <div className="pencil-metal" />
-        <div className="pencil-eraser" />
-      </div>
+      <img
+        className="desk-gemini-bottomleft"
+        src={geminiBottomLeftImage}
+        alt="Gemini generated illustration"
+        draggable="false"
+      />
+
+      <img
+        className="desk-gemini-bottomright"
+        src={geminiTopRightImage}
+        alt="Gemini generated illustration"
+        draggable="false"
+      />
+
+      <img
+        className="desk-gemini-left"
+        src={geminiLeftImage}
+        alt="Gemini generated illustration"
+        draggable="false"
+      />
+
+      <img
+        className="desk-gemini-right"
+        src={geminiRightImage}
+        alt="Gemini generated illustration"
+        draggable="false"
+      />
 
       <button className="diary" onClick={handleDiaryClick} type="button">
         <div className="diary-edge" />

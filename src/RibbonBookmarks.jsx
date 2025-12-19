@@ -11,6 +11,7 @@ const RibbonBookmarks = ({ chapters, onSelect }) => {
           onClick={() => onSelect(ch.spread)}
         >
           <span className="ribbon-icon">{ch.icon}</span>
+          {ch.label && <span className="ribbon-label">{ch.label}</span>}
         </button>
       ))}
     </div>
