@@ -5,6 +5,7 @@
   overflow: hidden;
   background: var(--desk);
   color: var(--ink);
+  --landing-scale: 1;
   --lamp-color: color-mix(
     in srgb,
     hsl(38 90% 88%) calc((1 - var(--lamp-temperature)) * 100%),
@@ -230,11 +231,13 @@
 
 .desk-gemini-corner {
   position: absolute;
-  top: clamp(6%, 10vh, 12%);
-  left: clamp(6%, 10vw, 14%);
-  width: clamp(330px, 48vw, 480px);
+  top: calc(80px * var(--landing-scale));
+  left: calc(80px * var(--landing-scale));
+  width: calc(420px * var(--landing-scale));
   height: auto;
-  transform: rotate(-6deg) translateY(clamp(-200px, -82vw, -120px)) translateX(clamp(-200px, -150vw, -100px));
+  transform: rotate(-6deg)
+    translateY(calc(-140px * var(--landing-scale)))
+    translateX(calc(-140px * var(--landing-scale)));
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -246,11 +249,13 @@
 
 .desk-gemini-corner-right {
   position: absolute;
-  top: calc(clamp(7%, 11vh, 13%) + 50px);
-  left: calc(clamp(32%, 40vw, 46%) + 50px);
-  width: clamp(182px, 25.2vw, 294px);
+  top: calc(150px * var(--landing-scale));
+  left: calc(480px * var(--landing-scale));
+  width: calc(300px * var(--landing-scale));
   height: auto;
-  transform: rotate(-4deg) translateY(clamp(-160px, -64vw, -80px)) translateX(clamp(-400px, -350vw, -300px));
+  transform: rotate(-4deg)
+    translateY(calc(-150px * var(--landing-scale)))
+    translateX(calc(-200px * var(--landing-scale)));
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -262,11 +267,11 @@
 
 .desk-gemini-bottomleft {
   position: absolute;
-  left: calc(clamp(6%, 10vw, 14%) - 50px);
-  bottom: calc(clamp(3%, 8vh, 12%) - 140px);
-  width: clamp(350px, 49vw, 560px);
+  left: calc(160px * var(--landing-scale));
+  bottom: calc(20px * var(--landing-scale));
+  width: calc(700px * var(--landing-scale));
   height: auto;
-  transform: rotate(-6deg) translateY(clamp(50px, -32vw, -220px));
+  transform: rotate(-6deg) translateY(calc(110px * var(--landing-scale))) translateX(calc(-200px * var(--landing-scale)));
   filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
   z-index: 5;
   pointer-events: none;
@@ -277,9 +282,12 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(283px, 36.5vw, 446px);
+  width: calc(570px * var(--landing-scale));
   height: auto;
-  transform: translate(-50%, -50%) translateX(clamp(-400px, -32vw, -220px)) rotate(-4deg);
+  transform: translate(-50%, -50%)
+    translateX(calc(-550px * var(--landing-scale)))
+    translateY(calc(50px * var(--landing-scale)))
+    rotate(-4deg);
   filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
   z-index: 6;
   pointer-events: none;
@@ -290,9 +298,12 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(600px, 70vw, 600px);
+  width: calc(600px * var(--landing-scale));
   height: auto;
-  transform: translate(-50%, -50%) translateX(clamp(230px, 30vw, 380px)) rotate(4deg);
+  transform: translate(-50%, -50%)
+    translateX(calc(400px * var(--landing-scale)))
+    translateY(calc(50px * var(--landing-scale)))
+    rotate(4deg);
   filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
   z-index: 6;
   pointer-events: none;
@@ -301,11 +312,13 @@
 
 .desk-gemini-bottomright {
   position: absolute;
-  right: clamp(6%, 10vw, 14%);
-  bottom: clamp(4%, 8vh, 10%);
-  width: clamp(200px, 26vw, 320px);
+  right: calc(90px * var(--landing-scale));
+  bottom: calc(70px * var(--landing-scale));
+  width: calc(400px * var(--landing-scale));
   height: auto;
-  transform: rotate(8deg) translateY(clamp(50px, -32vw, -220px)) translateX(clamp(10px, 30vw, 100px));
+  transform: rotate(8deg)
+    translateY(calc(100px * var(--landing-scale)))
+    translateX(calc(80px * var(--landing-scale)));
   filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
   z-index: 5;
   pointer-events: none;
@@ -623,57 +636,7 @@ button {
 
 @media (max-width: 720px) {
   .diary {
-    width: 78vw;
-    height: 62vh;
-  }
-
-  .desk-polaroid {
-    bottom: 8%;
-    left: 12%;
-    transform: rotate(-5deg);
-  }
-
-  .desk-gemini-corner {
-    top: 6%;
-    left: 8%;
-    width: 72vw;
-    transform: rotate(-4deg) translateY(-70px);
-  }
-
-  .desk-gemini-corner-right {
-    top: calc(8% + 50px);
-    left: calc(42% + 50px);
-    width: 47.6vw;
-    transform: rotate(-3deg) translateY(-40px);
-  }
-
-  .desk-gemini-bottomleft {
-    left: calc(8% - 50px);
-    bottom: calc(4% - 140px);
-    width: 102vw;
-    transform: rotate(-4deg);
-  }
-
-  .desk-gemini-left {
-    width: 52.8vw;
-    transform: translate(-50%, -50%) translateX(-42vw) rotate(-2deg);
-  }
-
-  .desk-gemini-right {
-    width: 105vw;
-    transform: translate(-50%, -50%) translateX(40vw) rotate(2deg);
-  }
-
-  .desk-gemini-bottomright {
-    right: 10%;
-    bottom: 6%;
-    width: 64vw;
-    transform: rotate(6deg);
-  }
-
-  .sticky-note {
-    top: 6%;
-    left: 8%;
-    transform: rotate(-4deg);
+    width: calc(320px * var(--landing-scale));
+    height: calc(440px * var(--landing-scale));
   }
 }

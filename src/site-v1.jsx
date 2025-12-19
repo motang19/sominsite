@@ -5,7 +5,7 @@ import geminiCornerImage from './Gemini_Generated_Image_zcynrhzcynrhzcyn.png';
 import geminiCornerRightImage from './Gemini_Generated_Image_yh34qhyh34qhyh34.png';
 import geminiRightImage from './Gemini_Generated_Image_5ra4905ra4905ra4 (1).png';
 import geminiTopRightImage from './Gemini_Generated_Image_bz1zyrbz1zyrbz1z.png';
-import geminiBottomLeftImage from './Gemini_Generated_Image_7qd69a7qd69a7qd6.png';
+import geminiBottomLeftImage from './604acf29-65ea-4d36-a88f-a28aed8bff2d.png';
 
 // Snapshot of the original landing desk with diary button
 const SiteV1 = () => {
@@ -13,6 +13,7 @@ const SiteV1 = () => {
   const knobRef = useRef(null);
   const isDragging = useRef(false);
   const [knobAngle, setKnobAngle] = useState(-30);
+  const [landingScale, setLandingScale] = useState(1);
 
   const clampKnobAngle = (angle) => Math.min(Math.max(angle, 45), 315);
   const normalizeAngle = (angle) => ((angle % 360) + 360) % 360;
@@ -88,12 +89,26 @@ const SiteV1 = () => {
     [handlePointerMove, handlePointerUp]
   );
 
+  useEffect(() => {
+    const updateScale = () => {
+      if (typeof window === 'undefined') return;
+      const widthScale = window.innerWidth / 1440;
+      const heightScale = window.innerHeight / 900;
+      const nextScale = Math.min(1.2, Math.max(0.5, Math.min(widthScale, heightScale)));
+      setLandingScale(nextScale);
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
+
   const handleDiaryClick = () => {
     window.location.hash = '#opening';
   };
 
   return (
-    <div className="landing-page">
+    <div className="landing-page" style={{ '--landing-scale': landingScale }}>
       <div className="desk-surface">
         <div className="desk-light" />
         <div className="paper-fibers" />

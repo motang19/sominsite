@@ -9,6 +9,10 @@
   padding-top: 80px;
   gap: 30px;
   position: relative;
+  --book-scale: 1;
+  --book-max-width: 1100px;
+  --book-base-width: 1100px;
+  --book-base-height: 820px;
 }
 
 .opening-banner {
@@ -48,18 +52,15 @@
   align-items: stretch;
   justify-items: stretch;
   background: #fdf8ee;
-  padding: 28px 20px;
+  padding: clamp(18px, 2vw, 28px) clamp(14px, 2vw, 20px);
   border-radius: 24px;
   box-shadow:
     0 26px 48px rgba(0, 0, 0, 0.16),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  max-width: 1100px;
-  width: 98%;
-  height: 82vh;
+  width: calc(var(--book-base-width) * var(--book-scale));
+  height: calc(var(--book-base-height) * var(--book-scale));
   margin-top: 10px;
   position: relative;
-  transform: scale(1.1);
-  transform-origin: center center;
   perspective: 2000px;
 }
 
@@ -185,9 +186,9 @@
   inset: 0;
   display: grid;
   place-items: center;
-  padding: 18px;
+  padding: clamp(12px, 1.6vw, 18px);
   color: #4a3623;
-  font-size: 18px;
+  font-size: clamp(14px, 1.6vw, 18px);
   letter-spacing: 0.08em;
   transform-style: preserve-3d;
   background: inherit;
@@ -279,8 +280,8 @@
 
 .page-image {
   width: 92%;
-  height: 160px;
-  object-fit: cover;
+  height: clamp(140px, 24vh, 220px);
+  object-fit: contain;
   border-radius: 12px;
   margin-bottom: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
@@ -290,8 +291,8 @@
 
 .page-video {
   width: 92%;
-  height: 160px;
-  object-fit: cover;
+  height: clamp(140px, 24vh, 220px);
+  object-fit: contain;
   border-radius: 12px;
   margin-bottom: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
@@ -307,6 +308,8 @@
   margin: 0;
   box-shadow: none;
   object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .page-video.fullbleed {
@@ -321,19 +324,19 @@
 
 .page-button {
   position: absolute;
-  width: 54px;
-  height: 54px;
+  width: clamp(30px, calc(56px * var(--btn-scale, var(--book-scale))), 60px);
+  height: clamp(30px, calc(56px * var(--btn-scale, var(--book-scale))), 60px);
   padding: 0;
   display: grid;
   place-items: center;
   text-align: center;
   line-height: 1.1;
   border-radius: 50%;
-  background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 50%, #e8e8e8 100%);
+  background: var(--button-bg, linear-gradient(145deg, #ffffff 0%, #f5f5f5 50%, #e8e8e8 100%));
   border: none;
-  color: #2f2f2f;
+  color: var(--button-fg, #2f2f2f);
   text-decoration: none;
-  font-size: 12.5px;
+  font-size: clamp(10px, calc(12.5px * var(--btn-scale, var(--book-scale))), 13px);
   font-weight: 700;
   letter-spacing: 0.01em;
   box-shadow:
@@ -343,10 +346,12 @@
     inset 0 -2px 3px rgba(0, 0, 0, 0.2);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   overflow: hidden;
+  transform: scale(var(--btn-scale, var(--book-scale)));
+  transform-origin: center;
 }
 
 .page-button:hover {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px) scale(calc(var(--btn-scale, var(--book-scale)) * 1.02));
   box-shadow:
     0 10px 20px rgba(0, 0, 0, 0.35),
     0 5px 8px rgba(0, 0, 0, 0.25),
@@ -355,12 +360,13 @@
 }
 
 .page-button:active {
-  transform: translateY(1px) scale(0.98);
+  transform: translateY(1px) scale(calc(var(--btn-scale, var(--book-scale)) * 0.98));
   box-shadow:
     0 2px 5px rgba(0, 0, 0, 0.3),
     inset 0 3px 8px rgba(0, 0, 0, 0.15),
     inset 0 1px 3px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(145deg, #e8e8e8 0%, #d8d8d8 50%, #cccccc 100%);
+  background: var(--button-bg, linear-gradient(145deg, #e8e8e8 0%, #d8d8d8 50%, #cccccc 100%));
+  filter: brightness(0.98);
 }
 
 .page-button::before {
@@ -417,8 +423,7 @@
 }
 
 .book-nav {
-  width: 98%;
-  max-width: 1100px;
+  width: calc(var(--book-base-width) * var(--book-scale));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -447,18 +452,18 @@
 
 .ribbon-container {
   position: absolute;
-  right: -12px;
-  top: 120px;
+  right: calc(-12px * var(--book-scale));
+  top: calc(120px * var(--book-scale));
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: calc(12px * var(--book-scale));
   z-index: 30;
 }
 
 .ribbon-bookmark {
   position: relative;
-  width: 68px;
-  height: 58px;
+  width: calc(68px * var(--book-scale));
+  height: calc(58px * var(--book-scale));
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -474,11 +479,11 @@
     inset 0 1px 0 rgba(255,255,255,0.55);
   transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
   border-left: 4px solid rgba(0,0,0,0.1);
-  transform: translateX(30px);
+  transform: translateX(calc(30px * var(--book-scale)));
 }
 
 .ribbon-bookmark:hover {
-  transform: translateX(40px);
+  transform: translateX(calc(40px * var(--book-scale)));
   filter: brightness(1.05);
   box-shadow:
     0 10px 18px rgba(0,0,0,0.2),
@@ -486,13 +491,13 @@
 }
 
 .ribbon-icon {
-  font-size: 18px;
-  margin-top: 6px;
+  font-size: calc(18px * var(--book-scale));
+  margin-top: calc(6px * var(--book-scale));
 }
 
 .ribbon-label {
-  margin-top: 6px;
-  font-size: 12px;
+  margin-top: calc(6px * var(--book-scale));
+  font-size: clamp(10px, calc(12px * var(--book-scale)), 12px);
   letter-spacing: 0.03em;
   line-height: 1.1;
 }
@@ -500,11 +505,11 @@
 .ribbon-bookmark::before {
   content: "";
   position: absolute;
-  right: -10px;
-  top: 10px;
-  width: 14px;
-  height: 38px;
+  right: calc(-10px * var(--book-scale));
+  top: calc(10px * var(--book-scale));
+  width: calc(14px * var(--book-scale));
+  height: calc(38px * var(--book-scale));
   background: inherit;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 calc(8px * var(--book-scale)) calc(8px * var(--book-scale)) 0;
   box-shadow: inset 0 0 6px rgba(0,0,0,0.15);
 }

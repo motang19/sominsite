@@ -36,50 +36,6 @@ const spreads = [
       title: "Remo0",
       text: "",
       fullBleed: true,
-      buttons: [
-        {
-          label: "1",
-          color: "#FAD3E6",
-          pageIndex: 3,
-          position: { top: "13%", left: "19%" },
-        },
-        {
-          label: "2",
-          color: "#B8D8FF",
-          pageIndex: 4,
-          position: { top: "26%", left: "19%" },
-        },
-        {
-          label: "3",
-          color: "#C8F7C5",
-          pageIndex: 5,
-          position: { top: "39%", left: "19%" },
-        },
-        {
-          label: "4",
-          color: "#FFD8A8",
-          pageIndex: 6,
-          position: { top: "50%", left: "19%" },
-        },
-        {
-          label: "5",
-          color: "#DCC6F8",
-          pageIndex: 7,
-          position: { top: "63%", left: "19%" },
-        },
-        {
-          label: "6",
-          color: "#A5F0FF",
-          pageIndex: 8,
-          position: { top: "74%", left: "19%" },
-        },
-        {
-          label: "7",
-          color: "#FFF7BA",
-          pageIndex: 9,
-          position: { top: "87%", left: "19%" },
-        },
-      ],
     },
     right: {
       image: remoImage,
@@ -88,7 +44,7 @@ const spreads = [
       fullBleed: true,
       button: {
         href: "https://www.jacc.org/doi/full/10.1016/j.jacadv.2024.101196",
-        position: { bottom: "11%", right: "39%" }
+        position: { bottom: "8%", right: "39%" }
       }
     }
   },
@@ -101,7 +57,7 @@ const spreads = [
       button: {
         href: mannLabPdf,
         label: "Open PDF",
-        position: { top: "3%", right: "24%" }
+        position: { top: "0%", right: "25%" }
       }
     },
     right: {
@@ -111,7 +67,7 @@ const spreads = [
       fullBleed: true,
       button: {
         href: "https://www.mdpi.com/2077-0383/14/20/7438",
-        position: { top: "7%", right: "2%" }
+        position: { top: "4%", right: "3.5%" }
       }
     }
   },
@@ -123,7 +79,7 @@ const spreads = [
       fullBleed: true,
       button: {
         href: "https://ieeexplore.ieee.org/abstract/document/11078963",
-        position: { bottom: "14%", right: "27%" }
+        position: { bottom: "11%", right: "28%" }
       }
     },
     right: {
@@ -157,38 +113,6 @@ const spreads = [
       title: "Remo7_5",
       text: "",
       fullBleed: true,
-       buttons: [
-        {
-          label: "1",
-          color: "#FAD3E6",
-          pageIndex: 11,
-          position: { top: "13%", left: "19%" },
-        },
-        {
-          label: "2",
-          color: "#B8D8FF",
-          pageIndex: 12,
-          position: { top: "28%", left: "19%" },
-        },
-        {
-          label: "3",
-          color: "#C8F7C5",
-          pageIndex: 13,
-          position: { top: "40%", left: "19%" },
-        },
-        {
-          label: "4",
-          color: "#FFD8A8",
-          pageIndex: 14,
-          position: { top: "57%", left: "19%" },
-        },
-        {
-          label: "5",
-          color: "#DCC6F8",
-          pageIndex: 15,
-          position: { top: "73%", left: "19%" },
-        },
-      ],
     },
     right: {
       video: remo8Video,
@@ -225,7 +149,7 @@ const spreads = [
       fullBleed: true,
       button: {
         href: "https://journals.lww.com/ccmjournal/citation/2025/01001/1553__evaluation_of_machine_learning_model_drift.1506.aspx",
-        position: { bottom: "5%", right: "40%" }
+        position: { bottom: "2%", right: "40%" }
       }
     }
   },
@@ -239,7 +163,7 @@ const spreads = [
   },
 ];
 
-const PageContent = ({ page, goToPage, bookScale }) => {
+const PageContent = ({ page }) => {
   if (!page) return null;
 
   const renderMedia = () => {
@@ -267,57 +191,27 @@ const PageContent = ({ page, goToPage, bookScale }) => {
     );
   };
 
-  const renderButtons = () => {
-    const buttons = page.buttons || (page.button ? [page.button] : []);
-    if (!buttons.length) return null;
-
-    return buttons.map((button, idx) => {
-      const {
-        href,
-        label = 'Read paper',
-        position = {},
-        color,
-        pageIndex,
-      } = button;
-      const style = { ...position, '--btn-scale': bookScale };
-      if (color) {
-        style['--button-bg'] = color;
-      }
-
-      if (typeof pageIndex === 'number' && goToPage) {
-        return (
-          <button
-            key={`${page.title || 'page'}-btn-${idx}`}
-            className="page-button"
-            type="button"
-            style={style}
-            onClick={() => goToPage(pageIndex)}
-          >
-            {label}
-          </button>
-        );
-      }
-
-      return (
-        <a
-          key={`${page.title || 'page'}-btn-${idx}`}
-          className="page-button"
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          style={style}
-        >
-          {label}
-        </a>
-      );
-    });
+  const renderButton = () => {
+    if (!page.button) return null;
+    const { href, label = 'Read paper', position = {} } = page.button;
+    return (
+      <a
+        className="page-button"
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        style={position}
+      >
+        {label}
+      </a>
+    );
   };
 
   if (page.fullBleed) {
     return (
       <div className="page-inner fullbleed">
         {renderMedia()}
-        {renderButtons()}
+        {renderButton()}
       </div>
     );
   }
@@ -326,7 +220,7 @@ const PageContent = ({ page, goToPage, bookScale }) => {
       {renderMedia()}
       <h2 className="page-title">{page.title}</h2>
       <p className="page-text">{page.text}</p>
-      {renderButtons()}
+      {renderButton()}
     </div>
   );
 };
@@ -465,11 +359,11 @@ const OpenJournal = ({ onBack }) => {
         <div className="page left-simple">
           <div className="page-rect">
             <div className={`page-sheet${leftPage?.fullBleed ? ' fullbleed' : ''}`}>
-              <PageContent page={leftPage} goToPage={goToPage} bookScale={bookScale} />
+              <PageContent page={leftPage} />
             </div>
             {isFlipping && flipDirection === 'prev' && (
               <div className={`page-sheet flip-left${leftPage?.fullBleed ? ' fullbleed' : ''}`} style={{ zIndex: 50 }}>
-                <PageContent page={leftPage} goToPage={goToPage} bookScale={bookScale} />
+                <PageContent page={leftPage} />
               </div>
             )}
           </div>
@@ -478,11 +372,11 @@ const OpenJournal = ({ onBack }) => {
         <div className="page right-simple">
           <div className="page-rect">
             <div className={`page-sheet${rightPage?.fullBleed ? ' fullbleed' : ''}`}>
-              <PageContent page={rightPage} goToPage={goToPage} bookScale={bookScale} />
+              <PageContent page={rightPage} />
             </div>
             {isFlipping && flipDirection === 'next' && (
               <div className={`page-sheet flip-right${rightPage?.fullBleed ? ' fullbleed' : ''}`} style={{ zIndex: 50 }}>
-                <PageContent page={rightPage} goToPage={goToPage} bookScale={bookScale} />
+                <PageContent page={rightPage} />
               </div>
             )}
           </div>
@@ -511,3 +405,4 @@ const OpenJournal = ({ onBack }) => {
 };
 
 export default OpenJournal;
+
