@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './OpenJournal.css';
 import RibbonBookmarks from './RibbonBookmarks.jsx';
+import aboutme from './AboutMe.png';
+import aboutme2 from './AboutMe2.png';
 import remo0Image from './Remo0.png';
 import remoImage from './Remo.png';
 import remo2Image from './Remo2.png';
@@ -9,7 +11,7 @@ import remo4Image from './Remo4.png';
 import remo5Image from './Remo5.png';
 import remo6Image from './Remo6.png';
 import remo7Image from './Remo7.png';
-import remo7_5Image from './Remo7-5.png';
+import remo7_5Image from './Remo7_5.png';
 import remo8Video from './Remo8.mp4';
 import remo9Image from './Remo9.png';
 import remo10Image from './Remo10.png';
@@ -20,14 +22,16 @@ import mannLabPdf from './MANN LAB (3)-combined.pdf';
 const spreads = [
   {
     left: {
-      image: "/images/pg1-left.jpg",
-      title: "Beginning",
-      text: "This is a placeholder for a long paragraph... (add your own content)\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo..."
+      image: aboutme,
+      title: "AboutMe",
+      text: "",
+      fullBleed: true
     },
     right: {
-      image: "/images/pg1-right.jpg",
-      title: "Childhood",
-      text: "Another long placeholder paragraph for page 2... Lorem ipsum dolor sit amet..."
+      image: aboutme2,
+      title: "AboutMe2",
+      text: "",
+      fullBleed: true
     }
   },
   {
