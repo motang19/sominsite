@@ -1,6 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import './OpenJournal.css';
 import RibbonBookmarks from './RibbonBookmarks.jsx';
+
 import aboutme from './AboutMe.png';
 import aboutme2 from './AboutMe2.png';
 import remo0Image from './Remo0.png';
@@ -17,501 +24,353 @@ import remo9Image from './Remo9.png';
 import remo10Image from './Remo10.png';
 import remo11Image from './Remo11.png';
 import remo12Image from './Remo12.png';
+import remo13Image from './Remo13.png';
+import remo14Image from './Remo14.png';
+import remo15Image from './Remo15.png';
+import remo16Image from './Remo16.png';
+import remo17Image from './Remo17.png';
+import remo18Image from './Remo18.png';
+import remo19Image from './Remo19.png';
+import remo20Image from './Remo20.png';
+import remo21Image from './Remo21.png';
+import remo22Image from './Remo22.png';
+
+
+
 import mannLabPdf from './MANN LAB (3)-combined.pdf';
+
+/* ================= DATA ================= */
 
 const spreads = [
   {
-    left: {
-      image: aboutme,
-      title: "AboutMe",
-      text: "",
-      fullBleed: true
-    },
-    right: {
-      image: aboutme2,
-      title: "AboutMe2",
-      text: "",
-      fullBleed: true
-    }
+    left: { image: aboutme, fullBleed: true },
+    right: { image: aboutme2, fullBleed: true },
   },
   {
     left: {
       image: remo0Image,
-      title: "Remo0",
-      text: "",
       fullBleed: true,
       buttons: [
-        {
-          label: "1",
-          color: "#FAD3E6",
-          pageIndex: 3,
-          position: { top: "13%", left: "19%" },
-        },
-        {
-          label: "2",
-          color: "#B8D8FF",
-          pageIndex: 4,
-          position: { top: "26%", left: "19%" },
-        },
-        {
-          label: "3",
-          color: "#C8F7C5",
-          pageIndex: 5,
-          position: { top: "39%", left: "19%" },
-        },
-        {
-          label: "4",
-          color: "#FFD8A8",
-          pageIndex: 6,
-          position: { top: "50%", left: "19%" },
-        },
-        {
-          label: "5",
-          color: "#DCC6F8",
-          pageIndex: 7,
-          position: { top: "63%", left: "19%" },
-        },
-        {
-          label: "6",
-          color: "#A5F0FF",
-          pageIndex: 8,
-          position: { top: "74%", left: "19%" },
-        },
-        {
-          label: "7",
-          color: "#FFF7BA",
-          pageIndex: 9,
-          position: { top: "87%", left: "19%" },
-        },
+        { label: '1', pageIndex: 3, position: { top: '13%', left: '19%' } },
+        { label: '2', pageIndex: 4, position: { top: '26%', left: '19%' } },
+        { label: '3', pageIndex: 5, position: { top: '39%', left: '19%' } },
+        { label: '4', pageIndex: 6, position: { top: '50%', left: '19%' } },
+        { label: '5', pageIndex: 7, position: { top: '63%', left: '19%' } },
+        { label: '6', pageIndex: 8, position: { top: '74%', left: '19%' } },
+        { label: '7', pageIndex: 9, position: { top: '87%', left: '19%' } },
       ],
     },
     right: {
       image: remoImage,
-      title: "Remo",
-      text: "",
       fullBleed: true,
       button: {
-        href: "https://www.jacc.org/doi/full/10.1016/j.jacadv.2024.101196",
-        position: { bottom: "11%", right: "39%" }
-      }
-    }
+        href: 'https://www.jacc.org/doi/full/10.1016/j.jacadv.2024.101196',
+        position: { bottom: '11%', right: '39%' },
+      },
+    },
   },
   {
     left: {
       image: remo6Image,
-      title: "Remo 6",
-      text: "",
       fullBleed: true,
       button: {
         href: mannLabPdf,
-        label: "Open PDF",
-        position: { top: "3%", right: "24%" }
-      }
+        label: 'Open PDF',
+        position: { top: '3%', right: '24%' },
+      },
     },
     right: {
       image: remo2Image,
-      title: "Remo 2",
-      text: "",
       fullBleed: true,
       button: {
-        href: "https://www.mdpi.com/2077-0383/14/20/7438",
-        position: { top: "7%", right: "2%" }
-      }
-    }
+        href: 'https://www.mdpi.com/2077-0383/14/20/7438',
+        position: { top: '7%', right: '2%' },
+      },
+    },
   },
   {
     left: {
       image: remo3Image,
-      title: "Remo 3",
-      text: "",
       fullBleed: true,
       button: {
-        href: "https://ieeexplore.ieee.org/abstract/document/11078963",
-        position: { bottom: "14%", right: "27%" }
-      }
+        href: 'https://ieeexplore.ieee.org/document/11078963',
+        position: { bottom: '14%', right: '27%' },
+      },
     },
     right: {
       image: remo4Image,
-      title: "Remo 4",
-      text: "",
       fullBleed: true,
       button: {
-        href: "https://openreview.net/pdf?id=QvuG2h28GP",
-        position: { bottom: "0%", right: "41%" }
-      }
-    }
+        href: 'https://openreview.net/pdf?id=QvuG2h28GP',
+        position: { bottom: '0%', right: '41%' },
+      },
+    },
   },
   {
-    left: {
-      image: remo5Image,
-      title: "Remo 5",
-      text: "",
-      fullBleed: true
-    },
-    right: {
-      image: remo7Image,
-      title: "Remo 7",
-      text: "",
-      fullBleed: true
-    }
+    left: { image: remo5Image, fullBleed: true },
+    right: { image: remo7Image, fullBleed: true },
   },
   {
     left: {
       image: remo7_5Image,
-      title: "Remo7_5",
-      text: "",
       fullBleed: true,
-       buttons: [
-        {
-          label: "1",
-          color: "#FAD3E6",
-          pageIndex: 11,
-          position: { top: "13%", left: "19%" },
-        },
-        {
-          label: "2",
-          color: "#B8D8FF",
-          pageIndex: 12,
-          position: { top: "28%", left: "19%" },
-        },
-        {
-          label: "3",
-          color: "#C8F7C5",
-          pageIndex: 13,
-          position: { top: "40%", left: "19%" },
-        },
-        {
-          label: "4",
-          color: "#FFD8A8",
-          pageIndex: 14,
-          position: { top: "57%", left: "19%" },
-        },
-        {
-          label: "5",
-          color: "#DCC6F8",
-          pageIndex: 15,
-          position: { top: "73%", left: "19%" },
-        },
+      buttons: [
+        { label: '1', pageIndex: 11, position: { top: '13%', left: '19%' } },
+        { label: '2', pageIndex: 12, position: { top: '28%', left: '19%' } },
+        { label: '3', pageIndex: 13, position: { top: '40%', left: '19%' } },
+        { label: '4', pageIndex: 14, position: { top: '57%', left: '19%' } },
+        { label: '5', pageIndex: 15, position: { top: '73%', left: '19%' } },
       ],
     },
     right: {
       video: remo8Video,
-      title: "Remo 8",
-      text: "",
-      fullBleed: true
-    }
+      fullBleed: true,
+    },
   },
   {
-    left: {
-      image: remo9Image,
-      title: "Remo 9",
-      text: "",
-      fullBleed: true
-    },
-    right: {
-      image: remo10Image,
-      title: "Remo 10",
-      text: "",
-      fullBleed: true
-    }
+    left: { image: remo9Image, fullBleed: true },
+    right: { image: remo10Image, fullBleed: true },
   },
   {
-    left: {
-      image: remo11Image,
-      title: "Remo 11",
-      text: "",
-      fullBleed: true
-    },
+    left: { image: remo11Image, fullBleed: true },
     right: {
       image: remo12Image,
-      title: "Remo 12",
-      text: "",
       fullBleed: true,
       button: {
-        href: "https://journals.lww.com/ccmjournal/citation/2025/01001/1553__evaluation_of_machine_learning_model_drift.1506.aspx",
-        position: { bottom: "5%", right: "40%" }
-      }
-    }
+        href: 'https://journals.lww.com/ccmjournal/citation/2025/01001/1553__evaluation_of_machine_learning_model_drift.1506.aspx',
+        position: { bottom: '5%', right: '40%' },
+      },
+    },
   },
   {
-    left: {
-      image: "/images/projects-right.jpg",
-      title: "Projects (cont'd)",
-      text: "More project details coming soon...",
-    },
-    right: {}
+    left: { image: remo13Image, fullBleed: true },
+    right: { image: remo14Image, fullBleed: true },
+  },
+  {
+    left: { image: remo15Image, fullBleed: true },
+    right: { image: remo16Image, fullBleed: true },
+  },
+  {
+    left: { image: remo17Image, fullBleed: true },
+    right: { image: remo18Image, fullBleed: true },
+  },
+  {
+    left: { image: remo19Image, fullBleed: true },
+    right: { image: remo20Image, fullBleed: true },
+  },
+  {
+    left: { image: remo21Image, fullBleed: true },
+    right: { image: remo22Image, fullBleed: true },
   },
 ];
 
-const PageContent = ({ page, goToPage, bookScale }) => {
-  if (!page) return null;
+/* ================= PAGE ================= */
 
-  const renderMedia = () => {
-    if (page.video) {
-      return (
-        <video
-          className={`page-video${page.fullBleed ? ' fullbleed' : ''}`}
-          src={page.video}
-          preload="auto"
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls={false}
-        />
-      );
-    }
-    return (
-      <img
-        src={page.image}
-        className={`page-image${page.fullBleed ? ' fullbleed' : ''}`}
-        alt={page.title || 'Page image'}
-        draggable="false"
-      />
-    );
-  };
+const PageContent = React.memo(
+  ({ page, goToPage, isActive, bookScale }) => {
+    if (!page) return null;
 
-  const renderButtons = () => {
-    const buttons = page.buttons || (page.button ? [page.button] : []);
-    if (!buttons.length) return null;
-
-    return buttons.map((button, idx) => {
-      const {
-        href,
-        label = 'Read paper',
-        position = {},
-        color,
-        pageIndex,
-      } = button;
-      const style = { ...position, '--btn-scale': bookScale };
-      if (color) {
-        style['--button-bg'] = color;
-      }
-
-      if (typeof pageIndex === 'number' && goToPage) {
-        return (
-          <button
-            key={`${page.title || 'page'}-btn-${idx}`}
-            className="page-button"
-            type="button"
-            style={style}
-            onClick={() => goToPage(pageIndex)}
-          >
-            {label}
-          </button>
-        );
-      }
-
-      return (
-        <a
-          key={`${page.title || 'page'}-btn-${idx}`}
-          className="page-button"
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          style={style}
-        >
-          {label}
-        </a>
-      );
-    });
-  };
-
-  if (page.fullBleed) {
     return (
       <div className="page-inner fullbleed">
-        {renderMedia()}
-        {renderButtons()}
+        {page.video ? (
+          <video
+            className={`page-video${page.fullBleed ? ' fullbleed' : ''}`}            
+            src={page.video}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            ref={(el) => {
+              if (!el) return;
+              isActive ? el.play() : el.pause();
+            }}
+          />
+        ) : (
+          <img
+            src={page.image}
+            className={`page-image${page.fullBleed ? ' fullbleed' : ''}`}
+            draggable="false"
+            alt=""
+          />
+        )}
+
+        {(page.buttons || (page.button ? [page.button] : [])).map(
+          (btn, i) =>
+            btn.pageIndex !== undefined ? (
+              <button
+                key={i}
+                className="page-button"
+                style={{ ...btn.position, '--btn-scale': bookScale }}
+                onClick={() => goToPage(btn.pageIndex)}
+              >
+                {btn.label}
+              </button>
+            ) : (
+              <a
+                key={i}
+                className="page-button"
+                href={btn.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{ ...btn.position, '--btn-scale': bookScale }}
+              >
+                {btn.label || 'Read'}
+              </a>
+            )
+        )}
       </div>
     );
   }
-  return (
-    <div className="page-inner">
-      {renderMedia()}
-      <h2 className="page-title">{page.title}</h2>
-      <p className="page-text">{page.text}</p>
-      {renderButtons()}
-    </div>
-  );
-};
+);
 
-const OpenJournal = ({ onBack }) => {
-  const [loading, setLoading] = useState(true);
+/* ================= BOOK ================= */
+
+
+
+
+export default function OpenJournal({ onBack }) {
   const pages = useMemo(
-    () =>
-      spreads.flatMap((spread) => [
-        { ...spread.left },
-        { ...spread.right },
-      ]),
+    () => spreads.flatMap((s) => [s.left, s.right]),
     []
   );
-  const [currentSpread, setCurrentSpread] = useState(0);
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [flipDirection, setFlipDirection] = useState('');
-  const preloadersRef = useRef([]);
+
+  const [spread, setSpread] = useState(0);
+  const [flipping, setFlipping] = useState(false);
+  const [dir, setDir] = useState('');
+
+  const frozenLeft = useRef(null);
+  const frozenRight = useRef(null);
+
+  const leftPage = pages[spread * 2];
+  const rightPage = pages[spread * 2 + 1];
   const [bookScale, setBookScale] = useState(1);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     const updateScale = () => {
-      if (typeof window === 'undefined') return;
       const widthScale = window.innerWidth / 1400;
       const heightScale = window.innerHeight / 900;
-      const nextScale = Math.max(0.6, Math.min(widthScale, heightScale, 1));
-      setBookScale(nextScale);
+      setBookScale(Math.max(0.6, Math.min(widthScale, heightScale, 1)));
     };
-
     updateScale();
     window.addEventListener('resize', updateScale);
     return () => window.removeEventListener('resize', updateScale);
   }, []);
 
   useEffect(() => {
-    const videoSources = spreads
-      .flatMap((spread) => [spread.left?.video, spread.right?.video])
-      .filter(Boolean);
-
-    preloadersRef.current = videoSources.map((src) => {
-      const video = document.createElement('video');
-      video.src = src;
-      video.preload = 'auto';
-      video.muted = true;
-      video.playsInline = true;
-      video.load();
-      return video;
-    });
-
-    return () => {
-      preloadersRef.current.forEach((video) => {
-        video.pause();
-        video.removeAttribute('src');
-        video.load();
-      });
-      preloadersRef.current = [];
-    };
-  }, []);
-
-  const leftPageIndex = currentSpread * 2;
-  const rightPageIndex = currentSpread * 2 + 1;
-  const leftPage = pages[leftPageIndex];
-  const rightPage = pages[rightPageIndex];
-
-  const nextPage = () => {
-    if (currentSpread < spreads.length - 1 && !isFlipping) {
-      setIsFlipping(true);
-      setFlipDirection('next');
-      setTimeout(() => {
-        setCurrentSpread((prev) => prev + 1);
-        setIsFlipping(false);
-        setFlipDirection('');
-      }, 1200);
+    if (!flipping) {
+      frozenLeft.current = leftPage;
+      frozenRight.current = rightPage;
     }
-  };
+  }, [flipping, leftPage, rightPage]);
 
-  const prevPage = () => {
-    if (currentSpread > 0 && !isFlipping) {
-      setIsFlipping(true);
-      setFlipDirection('prev');
+  const goToPage = useCallback(
+    (pageIndex) => {
+      const target = Math.floor(pageIndex / 2);
+      if (target === spread || flipping) return;
+      setFlipping(true);
+      setDir(target > spread ? 'next' : 'prev');
       setTimeout(() => {
-        setCurrentSpread((prev) => prev - 1);
-        setIsFlipping(false);
-        setFlipDirection('');
-      }, 1200);
-    }
-  };
+        setSpread(target);
+        setFlipping(false);
+        setDir('');
+      }, 900);
+    },
+    [spread, flipping]
+  );
 
-  const goToPage = (pageIndex) => {
-    if (isFlipping || pageIndex === leftPageIndex || pageIndex === rightPageIndex) return;
-    const targetSpread = Math.floor(pageIndex / 2);
-    setIsFlipping(true);
-    setFlipDirection(targetSpread > currentSpread ? 'next' : 'prev');
-    setTimeout(() => {
-      setCurrentSpread(targetSpread);
-      setIsFlipping(false);
-      setFlipDirection('');
-    }, 1200);
-  };
-
-  if (loading) {
-    return (
-      <div className="openjournal-container" style={{ '--book-scale': bookScale }}>
-        <button className="back-link" onClick={onBack} type="button">
-          Back
-        </button>
-        <div className="opening-banner">Opening the journal...</div>
-      </div>
-    );
-  }
+  const next = () => goToPage((spread + 1) * 2);
+  const prev = () => goToPage((spread - 1) * 2);
 
   return (
     <div className="openjournal-container" style={{ '--book-scale': bookScale }}>
-      <button className="back-link" onClick={onBack} type="button">
+      <button className="back-link" onClick={onBack}>
         Back
       </button>
+
       <div className="open-book simple">
         <RibbonBookmarks
           chapters={[
             { icon: '1', label: 'About me', spread: 0, color: '#FF6D7A' },
             { icon: '2', label: 'Research', spread: 1, color: '#FFC84A' },
             { icon: '3', label: 'Projects', spread: 5, color: '#6AC7FF' },
-            { icon: '4', label: 'Art', spread: 1, color: '#7DDE92' },
-            { icon: '5', label: 'Travel', spread: 4, color: '#FB8C00' },
+            { icon: '4', label: 'Art', spread: 8, color: '#7DDE92' },
           ]}
-          onSelect={(spread) => {
-            const targetPage = spread * 2;
-            goToPage(targetPage);
-          }}
+          onSelect={(s) => goToPage(s * 2)}
         />
+
+        {/* LEFT */}
         <div className="page left-simple">
           <div className="page-rect">
             <div className={`page-sheet${leftPage?.fullBleed ? ' fullbleed' : ''}`}>
-              <PageContent page={leftPage} goToPage={goToPage} bookScale={bookScale} />
+              <PageContent
+                page={leftPage}
+                goToPage={goToPage}
+                isActive={!flipping}
+                bookScale={bookScale}
+              />
             </div>
-            {isFlipping && flipDirection === 'prev' && (
+
+            {flipping && dir === 'prev' && (
               <div className={`page-sheet flip-left${leftPage?.fullBleed ? ' fullbleed' : ''}`} style={{ zIndex: 50 }}>
-                <PageContent page={leftPage} goToPage={goToPage} bookScale={bookScale} />
+                <PageContent
+                  page={frozenLeft.current}
+                  goToPage={goToPage}
+                  isActive={false}
+                  bookScale={bookScale}
+                />
               </div>
             )}
           </div>
         </div>
+
+
         <div className="spine-simple" />
+
+        {/* RIGHT */}
         <div className="page right-simple">
           <div className="page-rect">
             <div className={`page-sheet${rightPage?.fullBleed ? ' fullbleed' : ''}`}>
-              <PageContent page={rightPage} goToPage={goToPage} bookScale={bookScale} />
+              <PageContent
+                page={rightPage}
+                goToPage={goToPage}
+                isActive={!flipping}
+                bookScale={bookScale}
+              />
             </div>
-            {isFlipping && flipDirection === 'next' && (
+
+            {flipping && dir === 'next' && (
               <div className={`page-sheet flip-right${rightPage?.fullBleed ? ' fullbleed' : ''}`} style={{ zIndex: 50 }}>
-                <PageContent page={rightPage} goToPage={goToPage} bookScale={bookScale} />
+                <PageContent
+                  page={frozenRight.current}
+                  goToPage={goToPage}
+                  isActive={false}
+                  bookScale={bookScale}
+                />
               </div>
             )}
           </div>
         </div>
+
       </div>
-      <div className="book-nav" aria-label="Journal navigation">
-        <button
-          className="book-nav-button"
-          onClick={prevPage}
-          disabled={isFlipping || currentSpread === 0}
-          type="button"
-        >
-          Previous
-        </button>
-        <button
-          className="book-nav-button"
-          onClick={nextPage}
-          disabled={isFlipping || currentSpread >= spreads.length - 1}
-          type="button"
-        >
-          Next
-        </button>
-      </div>
+
+      <div className="book-nav">
+      <button
+        className="book-nav-button"
+        onClick={prev}
+        disabled={spread === 0 || flipping}
+      >
+        Previous
+      </button>
+
+      <button
+        className="book-nav-button"
+        onClick={next}
+        disabled={spread === spreads.length - 1 || flipping}
+      >
+        Next
+      </button>
+    </div>
+
     </div>
   );
-};
-
-export default OpenJournal;
+}
