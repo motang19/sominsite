@@ -3,119 +3,21 @@
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
-  background: var(--desk);
-  color: var(--ink);
-  --landing-scale: 1;
-  --lamp-color: color-mix(
-    in srgb,
-    hsl(38 90% 88%) calc((1 - var(--lamp-temperature)) * 100%),
-    hsl(47 20% 96%) calc(var(--lamp-temperature) * 100%)
-  );
   background-color: #f7f2e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.desk-surface {
+.landing-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at 24% 18%,
-    color-mix(in srgb, var(--desk-light-color) 90%, #f7f2e9 10%) 0%,
-    color-mix(in srgb, var(--desk-light-color) 70%, #f7f2e9 30%) calc(30% + 20% * var(--desk-light-strength)),
-    #f1e9dc 100%
-  );
-}
-
-.paper-fibers {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 18%, rgba(120, 90, 60, 0.08), transparent 18%),
-    radial-gradient(circle at 70% 32%, rgba(120, 90, 60, 0.06), transparent 22%),
-    repeating-linear-gradient(90deg, rgba(120, 90, 60, 0.04), rgba(120, 90, 60, 0.04) 1px, transparent 1px, transparent 8px);
-  opacity: 0.25;
-  mix-blend-mode: multiply;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
   pointer-events: none;
-}
-
-.desk-light {
-  position: absolute;
-  width: 70vmin;
-  height: 70vmin;
-  top: -20vmin;
-  right: -12vmin;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--lamp-color) 100%, transparent 0%) 0%,
-    color-mix(in srgb, var(--lamp-color) 70%, transparent 30%) 42%,
-    transparent 70%
-  );
-  filter: blur(6px);
-  opacity: calc(0.2 + var(--lamp-intensity) * 0.6);
-  pointer-events: none;
-}
-
-.lamp-base {
-  position: absolute;
-  top: clamp(6%, 10vh, 12%);
-  right: clamp(6%, 10vw, 14%);
-  width: clamp(120px, 16vw, 160px);
-  height: clamp(120px, 16vw, 160px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
-  box-shadow:
-    0 18px 28px rgba(0, 0, 0, 0.14),
-    0 0 0 1px rgba(200, 200, 200, 0.5),
-    inset 0 10px 20px rgba(255, 255, 255, 0.65);
-  display: grid;
-  place-items: center;
-  z-index: 3;
-}
-
-.lamp-base-inner {
-  width: 76%;
-  height: 76%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.9), rgba(230, 230, 230, 0.9));
-  box-shadow:
-    inset 0 6px 12px rgba(0, 0, 0, 0.05),
-    0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.lamp-knob {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: clamp(30px, 5vw, 38px);
-  height: clamp(30px, 5vw, 38px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #f1f1f1, #dcdcdc);
-  box-shadow:
-    0 10px 16px rgba(0, 0, 0, 0.14),
-    0 0 0 1px rgba(160, 160, 160, 0.6),
-    inset 0 8px 12px rgba(255, 255, 255, 0.65);
-  cursor: grab;
-  transition: box-shadow 200ms ease, transform 200ms ease;
-  touch-action: none;
-  z-index: 4;
-}
-
-.lamp-knob:active {
-  cursor: grabbing;
-  box-shadow:
-    0 12px 18px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(160, 160, 160, 0.6),
-    inset 0 10px 14px rgba(255, 255, 255, 0.7);
-}
-
-.lamp-knob-mark {
-  position: absolute;
-  top: 16%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(180deg, #b3b3b3, #8f8f8f);
-  border-radius: 50%;
-  transform: translateX(-50%);
+  user-select: none;
 }
 
 .diary {
@@ -229,101 +131,6 @@
   gap: 10px;
 }
 
-.desk-gemini-corner {
-  position: absolute;
-  top: calc(80px * var(--landing-scale));
-  left: calc(80px * var(--landing-scale));
-  width: calc(420px * var(--landing-scale));
-  height: auto;
-  transform: rotate(-6deg)
-    translateY(calc(-140px * var(--landing-scale)))
-    translateX(calc(-140px * var(--landing-scale)));
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.14));
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-}
-
-.desk-gemini-corner-right {
-  position: absolute;
-  top: calc(150px * var(--landing-scale));
-  left: calc(480px * var(--landing-scale));
-  width: calc(300px * var(--landing-scale));
-  height: auto;
-  transform: rotate(-4deg)
-    translateY(calc(-150px * var(--landing-scale)))
-    translateX(calc(-200px * var(--landing-scale)));
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.14));
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-}
-
-.desk-gemini-bottomleft {
-  position: absolute;
-  left: calc(160px * var(--landing-scale));
-  bottom: calc(20px * var(--landing-scale));
-  width: calc(700px * var(--landing-scale));
-  height: auto;
-  transform: rotate(-6deg) translateY(calc(110px * var(--landing-scale))) translateX(calc(-200px * var(--landing-scale)));
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-}
-
-.desk-gemini-left {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(570px * var(--landing-scale));
-  height: auto;
-  transform: translate(-50%, -50%)
-    translateX(calc(-550px * var(--landing-scale)))
-    translateY(calc(50px * var(--landing-scale)))
-    rotate(-4deg);
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
-  z-index: 6;
-  pointer-events: none;
-  user-select: none;
-}
-
-.desk-gemini-right {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(600px * var(--landing-scale));
-  height: auto;
-  transform: translate(-50%, -50%)
-    translateX(calc(400px * var(--landing-scale)))
-    translateY(calc(50px * var(--landing-scale)))
-    rotate(4deg);
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
-  z-index: 6;
-  pointer-events: none;
-  user-select: none;
-}
-
-.desk-gemini-bottomright {
-  position: absolute;
-  right: calc(90px * var(--landing-scale));
-  bottom: calc(70px * var(--landing-scale));
-  width: calc(400px * var(--landing-scale));
-  height: auto;
-  transform: rotate(8deg)
-    translateY(calc(100px * var(--landing-scale)))
-    translateX(calc(80px * var(--landing-scale)));
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-}
 
 .polaroid-photo {
   position: relative;
@@ -636,7 +443,7 @@ button {
 
 @media (max-width: 720px) {
   .diary {
-    width: calc(320px * var(--landing-scale));
-    height: calc(440px * var(--landing-scale));
+    width: clamp(240px, 80vw, 320px);
+    height: clamp(320px, 90vw, 440px);
   }
 }
