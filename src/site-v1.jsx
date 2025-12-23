@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import frontPageImage from './frontPage.png';
+import frontPageImage from './frontPage.PNG';
 
 const SiteV1 = () => {
   const handleDiaryClick = () => {
